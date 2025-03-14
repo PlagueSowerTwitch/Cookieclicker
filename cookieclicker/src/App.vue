@@ -1,16 +1,22 @@
 <template>
   <div class="homes">
+    <!-- Statistiques sur le côté gauche -->
+    <StatistiqueList />
+
+    <!-- Succès -->
+    <SuccesList />
+
     <header>
       <h1>Cookie Clicker</h1>
-      <p>Bienvenue dans le jeu Cookie Clicker ! Clique sur le bouton pour obtenir des cookies.</p>
+      <p>Bienvenue dans le jeu Cookie Clicker ! Clique sur le bouton pour obtenir des Vodka.</p>
     </header>
 
-    <!-- Bouton pour obtenir des cookies -->
+    <!-- Bouton pour obtenir des Vodka -->
     <CookieButton @cookie-increment="incrementCookies" />
 
-    <!-- Affichage du nombre de cookies -->
+    <!-- Affichage du nombre de Vodka -->
     <div class="cookie-count">
-      <p>Vous avez {{ cookies }} cookies</p>
+      <p>Vous avez {{ cookies }} Vodka</p>
     </div>
 
     <!-- Liste des améliorations -->
@@ -25,6 +31,8 @@
 <script>
 import CookieButton from './components/CookieButton.vue';
 import UpgradeList from './components/UpgradeList.vue';
+import StatistiqueList from './components/StatistiqueList.vue';
+import SuccesList from './components/SuccesList.vue'; // Importer le nouveau composant
 import { mapState, mapActions } from 'vuex';
 
 export default {
@@ -32,37 +40,39 @@ export default {
   components: {
     CookieButton,
     UpgradeList,
+    StatistiqueList,
+    SuccesList, // Ajouter le nouveau composant
   },
   computed: {
     ...mapState({
       cookies: (state) => state.game.cookies,
       cookiesPerSecond: (state) => state.game.cookiesPerSecond,
       upgradesPurchased: (state) => state.game.upgradesPurchased,
-      upgrades: (state) => state.game.upgrades, // Liste des améliorations
+      upgrades: (state) => state.game.upgrades,
     }),
   },
   methods: {
-    ...mapActions(['incrementCookies', 'buyUpgrade']),  // Appel des actions Vuex
-
-    // Quand l'événement buy-upgrade est capturé, acheter l'amélioration via Vuex
+    ...mapActions(['incrementCookies', 'buyUpgrade']),
     handleUpgradeBought(upgradeIndex) {
       console.log(`Réception de l'événement d'achat de l'amélioration avec index : ${upgradeIndex}`);
-      this.buyUpgrade(upgradeIndex);  // Appel de l'action buyUpgrade avec l'index de l'amélioration
+      this.buyUpgrade(upgradeIndex);
     },
   },
   created() {
-    // Démarre la génération automatique de cookies
-    console.log('Démarrage de la génération automatique de cookies');
     this.$store.dispatch('startAutoCookieGeneration');
+    this.$store.dispatch('startCookieRain');
+  },
+  beforeUnmount() {
+    this.$store.dispatch('stopCookieRain');
   },
 };
 </script>
-
 <style scoped>
 .homes {
   text-align: center;
   font-family: Arial, sans-serif;
   padding: 20px;
+  
 }
 
 header {

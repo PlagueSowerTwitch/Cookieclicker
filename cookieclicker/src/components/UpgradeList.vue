@@ -3,15 +3,15 @@
     <h2>Upgrades</h2>
     <div v-for="(upgrade, index) in upgrades" :key="index" class="upgrade-item">
       <div class="upgrade-details">
-        <span>{{ upgrade.name }}</span>
-        <span>{{ upgrade.description }}</span>
-        <span>{{ upgrade.price }} Vodka </span>
-        <span>Upgrades Purchased : {{ upgrade.purchasedCount }}</span>
-        <span>Increase in Production : {{ upgrade.productionIncrease }}</span>
+        <span class="upgrade-name">{{ upgrade.name }}</span>
+        <span class="upgrade-description">{{ upgrade.description }}</span>
+        <span class="upgrade-price">{{ upgrade.price }} Vodka</span>
+        <span class="upgrade-purchased">Upgrades Purchased : {{ upgrade.purchasedCount }}</span>
+        <span v-if="upgrade.effect === 'doubleClicks'" class="upgrade-multiplier">
+          Current Multiplier : {{ upgrade.clickMultiplier }}x
+        </span>
       </div>
-      <button 
-        @click="buyUpgrade(index)"
-      >
+      <button @click="buyUpgrade(index)">
         Acheter
       </button>
     </div>
@@ -53,6 +53,39 @@ export default {
 
 .upgrade-details {
   font-size: 14px;
+  margin-bottom: 5px;
+}
+
+.upgrade-name {
+  font-weight: bold;
+  color: #333;
+  display: block;
+  margin-bottom: 5px;
+}
+
+.upgrade-description {
+  font-style: italic;
+  color: #666;
+  display: block;
+  margin-bottom: 5px;
+}
+
+.upgrade-price {
+  color: #e91e63;
+  font-weight: bold;
+  display: block;
+  margin-bottom: 5px;
+}
+
+.upgrade-purchased {
+  color: #4caf50;
+  display: block;
+  margin-bottom: 5px;
+}
+
+.upgrade-production {
+  color: #2196f3;
+  display: block;
   margin-bottom: 5px;
 }
 
