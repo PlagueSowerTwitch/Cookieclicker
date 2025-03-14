@@ -21,7 +21,7 @@ export default {
       this.isRotating = true;
       setTimeout(() => {
         this.isRotating = false;
-      }, 1000); // Désactive la rotation après 1 seconde
+      }, 1000); 
     },
   },
 };
@@ -47,7 +47,6 @@ export default {
   transform: scale(1.1);
 }
 
-/* Animation de rotation */
 .rotate {
   animation: rotate360 0.5s linear;
 }

@@ -1,5 +1,6 @@
 <template>
   <div class="statistique-list">
+    <img src="@/assets/image1.png" alt="Faucille et marteau" class="soviet-icon" />
     <h2>Statistiques</h2>
     <div class="statistique-item">
       <p>Total de Vodka depuis le début : <strong>{{ totalCookies }}</strong></p>
@@ -61,33 +62,49 @@ export default {
 .statistique-list {
   position: fixed;
   left: 10px;
-  top: 50%; /* Positionne le composant au milieu de l'écran */
-  transform: translateY(-50%); /* Centre verticalement */
-  background-color: #f9f9f9;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: #d32f2f;
   padding: 20px;
-  border: 1px solid #ccc;
+  border: 3px solid #ffeb3b;
   border-radius: 10px;
   width: 250px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+  font-family: 'Roboto', sans-serif;
+  color: #fff;
+}
+
+.soviet-icon {
+  width: 50px;
+  height: 50px;
+  display: block;
+  margin: 0 auto 10px auto;
 }
 
 h2 {
   margin-top: 0;
   font-size: 24px;
-  color: #333;
+  color: #ffeb3b;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 2px;
 }
 
 .statistique-item {
   margin-bottom: 15px;
+  padding: 10px;
+  background-color: #b71c1c;
+  border: 2px solid #ffeb3b;
+  border-radius: 5px;
 }
 
 .statistique-item p {
   margin: 0;
   font-size: 14px;
-  color: #555;
+  color: #fff;
 }
 
 .statistique-item strong {
-  color: #333;
+  color: #ffeb3b;
 }
 </style>

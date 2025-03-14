@@ -1,40 +1,39 @@
 const state = {
-  cookies: 0, // Nombre actuel de Vodka
-  totalCookies: 0, // Total de Vodka depuis le début
-  cookiesPerSecond: 0, // Production automatique par seconde
-  upgradesPurchased: 0, // Nombre d'améliorations achetées
-  autoClickInterval: 1000, // Intervalle de génération automatique
+  cookies: 0,
+  totalCookies: 0,
+  cookiesPerSecond: 0,
+  upgradesPurchased: 0,
   upgrades: [
     {
-      name: 'Potato farm',
-      description: 'With potato farm, increase vodka production by 1 (stackable). Cost: ',
-      price: 50, // Prix initial de l'amélioration
-      multiplier: 1.1, // Le prix de l'amélioration augmente de 10% après chaque achat
-      productionIncrease: 1, // Production automatique augmentée par achat
-      purchasedCount: 0, // Compteur d'achats de cette amélioration
+      name: 'Potato farm', // propriété redondante
+      description: 'With potato farm, increase vodka production by 1 (more potato more vodka) ',
+      price: 50,
+      multiplier: 1.1,
+      productionIncrease: 1,
+      purchasedCount: 0,
     },
     {
-      name: 'Double Clicks',
-      description: 'Each click counts as 2 clicks!',
-      price: 100, // Prix initial de l'amélioration
-      multiplier: 1.2, // Le prix de l'amélioration augmente de 20% après chaque achat
-      productionIncrease: 0, // Pas de production automatique pour cette amélioration
-      purchasedCount: 0, // Compteur d'achats de cette amélioration
-      effect: 'doubleClicks', // Effet spécial de cette amélioration
-      clickMultiplier: 2, // Multiplicateur de clics initial (2 pour le premier achat)
+      name: 'AK 47',
+      description: 'Each Bullet count more than the precedent',
+      price: 100,
+      multiplier: 1.2,
+      productionIncrease: 0,
+      purchasedCount: 0,
+      effect: 'doubleClicks',
+      clickMultiplier: 1,
     },
     {
-      name: 'Cookie Rain',
-      description: 'Gain 100 cookies every 10 seconds!',
-      price: 150, // Prix initial de l'amélioration
-      multiplier: 1.15, // Le prix de l'amélioration augmente de 15% après chaque achat
-      productionIncrease: 0, // Pas de production automatique pour cette amélioration
-      purchasedCount: 0, // Compteur d'achats de cette amélioration
-      effect: 'cookieRain', // Effet spécial de cette amélioration
-      bonusCookies: 100, // Nombre de cookies gagnés toutes les 10 secondes
+      name: 'Big Red Button',
+      description: 'Launch Nuke every 10s on American Pigs',
+      price: 150,
+      multiplier: 1.15,
+      productionIncrease: 0,
+      purchasedCount: 0,
+      effect: 'cookieRain',
+      bonusCookies: 100,
     },
   ],
-  isDoubleClicksActive: false, // Nouvelle propriété pour gérer l'effet
+  isDoubleClicksActive: false, // propriété spécifique
   cookieRainIntervalId: null,
   startTime: Date.now(),
 };
@@ -62,32 +61,28 @@ const mutations = {
   buyUpgrade(state, index) {
     const upgrade = state.upgrades[index];
     console.log(`Tentative d'achat de l'amélioration : ${upgrade.name}`);
-  
+
     if (state.cookies >= upgrade.price) {
-      state.cookies -= upgrade.price; // Déduire les cookies
-      upgrade.purchasedCount++; // Compter l'achat de l'amélioration
-  
-      // Appliquer l'effet de l'amélioration
+      state.cookies -= upgrade.price;
+      upgrade.purchasedCount++;
+
+      // double click augmente la valeur du click de 1 a chaque fois
       if (upgrade.effect === 'doubleClicks') {
-        state.isDoubleClicksActive = true; // Activer l'effet "Double Clicks"
-        upgrade.clickMultiplier += 1; // Augmenter le multiplicateur de clics de 1
+        state.isDoubleClicksActive = true;
+        upgrade.clickMultiplier += 1;
       } else if (upgrade.effect === 'cookieRain') {
-        // Pour l'amélioration "Cookie Rain", augmenter le nombre de cookies gagnés de 25
+        // cookie rain augmente de 25 le bonus
         upgrade.bonusCookies += 25;
         console.log(`Nouveau bonus de cookies : ${upgrade.bonusCookies}`);
       } else {
-        // Pour l'amélioration "Potato farm", augmenter la production et réduire l'intervalle
-        state.cookiesPerSecond += upgrade.productionIncrease; // Augmenter la production automatique
-        upgrade.productionIncrease += 1; // Augmenter l'amélioration de 1 à chaque achat
-  
-        // Réduire l'intervalle de génération automatique de 10% à chaque achat
-        state.autoClickInterval = Math.max(100, state.autoClickInterval * 0.9); // Ne pas descendre en dessous de 100 ms
-        console.log(`Nouvel intervalle de génération automatique : ${state.autoClickInterval} ms`);
+        // potato farm production +1 par seconde
+        state.cookiesPerSecond += upgrade.productionIncrease;
+        console.log(`Nouvelle production par seconde : ${state.cookiesPerSecond}`);
       }
-  
-      // Augmenter le prix de l'amélioration pour le prochain achat
+
+      // Prix augmenter (inflation)
       upgrade.price = Math.floor(upgrade.price * upgrade.multiplier);
-      console.log(`Amélioration achetée : ${upgrade.name}, bonus de cookies : ${upgrade.bonusCookies}`);
+      console.log(`Amélioration achetée : ${upgrade.name}, production par seconde : ${state.cookiesPerSecond}`);
       console.log(`Nouveau prix de l'amélioration : ${upgrade.price}`);
     } else {
       console.log('Pas assez de cookies pour acheter', upgrade.name);
@@ -104,45 +99,41 @@ const actions = {
   },
 
   buyUpgrade({ commit }, index) {
-    commit('buyUpgrade', index); // Appeler la mutation pour acheter l'amélioration
+    commit('buyUpgrade', index);
   },
 
-  startAutoCookieGeneration({ commit, state }) {
+  startAutoCookieGeneration({ state }) {
     setInterval(() => {
       if (state.cookiesPerSecond > 0) {
-        commit('incrementCookies'); // Générer des cookies à l'intervalle défini
+        state.cookies += state.cookiesPerSecond;
+        state.totalCookies += state.cookiesPerSecond;
         console.log(`Cookies par seconde : ${state.cookiesPerSecond}, cookies : ${state.cookies}`);
       }
-    }, state.autoClickInterval); // Utiliser l'intervalle dynamique
+    }, 1000);
   },
 
-  startCookieRain({ state, commit }) {
-    // Si un intervalle est déjà en cours, ne pas en créer un nouveau
+  startCookieRain({ state, commit }) { 
     if (state.cookieRainIntervalId !== null) {
       console.log('Un intervalle est déjà en cours.');
       return;
     }
-
-    // Créer un nouvel intervalle
+  
     const intervalId = setInterval(() => {
-      // Trouver l'amélioration "Cookie Rain"
       const cookieRainUpgrade = state.upgrades.find(upgrade => upgrade.effect === 'cookieRain');
       if (cookieRainUpgrade && cookieRainUpgrade.purchasedCount > 0) {
-        // Ajouter le bonus de cookies
         state.cookies += cookieRainUpgrade.bonusCookies;
+        state.totalCookies += cookieRainUpgrade.bonusCookies;
         console.log(`Bonus de cookies ajouté : ${cookieRainUpgrade.bonusCookies}`);
       } else {
         console.log('Aucun bonus de cookies à ajouter.');
       }
-    }, 10000); // Toutes les 10 secondes
-
-    // Stocker l'identifiant de l'intervalle dans le state
+    }, 10000);
+  
     commit('setCookieRainIntervalId', intervalId);
     console.log('Intervalle de Cookie Rain démarré.');
   },
 
   stopCookieRain({ state, commit }) {
-    // Arrêter l'intervalle si il existe
     if (state.cookieRainIntervalId !== null) {
       clearInterval(state.cookieRainIntervalId);
       commit('setCookieRainIntervalId', null);
@@ -155,7 +146,7 @@ const getters = {
   cookies: (state) => state.cookies,
   cookiesPerSecond: (state) => state.cookiesPerSecond,
   upgrades: (state) => state.upgrades,
-  isDoubleClicksActive: (state) => state.isDoubleClicksActive, // Nouveau getter
+  isDoubleClicksActive: (state) => state.isDoubleClicksActive,
 };
 
 export default {

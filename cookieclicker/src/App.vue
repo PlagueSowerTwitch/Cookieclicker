@@ -7,8 +7,8 @@
     <SuccesList />
 
     <header>
-      <h1>Cookie Clicker</h1>
-      <p>Bienvenue dans le jeu Cookie Clicker ! Clique sur le bouton pour obtenir des Vodka.</p>
+      <h1>Vodka Clicker</h1>
+      <p>Добро пожаловать comrad, Добро пожаловать dans le jeux du Vodka Clicker</p>
     </header>
 
     <!-- Bouton pour obtenir des Vodka -->
@@ -67,40 +67,67 @@ export default {
   },
 };
 </script>
+
 <style scoped>
 .homes {
+  color: #fff; /* Texte en blanc */
   text-align: center;
-  font-family: Arial, sans-serif;
-  padding: 20px;
-  
+  font-family: 'Roboto', sans-serif;
+  padding: 30px;
 }
 
 header {
-  margin-bottom: 20px;
+  margin-bottom: 30px;
 }
 
 h1 {
-  font-size: 32px;
-  margin-bottom: 10px;
-  color: #333;
+  font-size: 36px;
+  margin-bottom: 15px;
+  color: #ffeb3b; /* Jaune vif pour le titre */
+  text-transform: uppercase; /* Majuscules pour un effet soviétique */
+  letter-spacing: 3px;
+}
+
+p {
+  color: #fff;
+  font-size: 18px;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+
+.cookie-count {
+  margin-top: 30px;
+  font-size: 28px;
+  color: #ffeb3b; /* Jaune vif pour la quantité de Vodka */
+  font-weight: bold;
 }
 
 .game-info {
   margin-top: 30px;
-  font-size: 18px;
-}
-
-p {
-  color: #555;
+  font-size: 20px;
+  color: #fff;
 }
 
 strong {
-  color: #333;
+  color: #ffeb3b; /* Jaune vif pour les valeurs importantes */
 }
 
-.cookie-count {
+button {
+  background-color: #ffeb3b; /* Jaune vif */
+  border: none;
+  padding: 15px;
+  cursor: pointer;
+  border-radius: 5px;
+  color: #d32f2f; /* Rouge foncé pour le texte */
+  font-weight: bold;
+  text-transform: uppercase;
+  font-size: 16px;
+  width: 200px;
   margin-top: 20px;
-  font-size: 24px;
-  color: #333;
+}
+
+button:hover {
+  background-color: #fbc02d;
+  color: #fff; /* Texte blanc quand le bouton est survolé */
 }
 </style>

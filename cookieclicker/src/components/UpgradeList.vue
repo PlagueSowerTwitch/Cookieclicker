@@ -1,14 +1,15 @@
 <template>
   <div class="upgrade-panel">
-    <h2>Upgrades</h2>
+    <img src="@/assets/image6.jpg" alt="Lénine comrad" class="soviet-icon" />
+    <h2>Améliorations</h2>
     <div v-for="(upgrade, index) in upgrades" :key="index" class="upgrade-item">
       <div class="upgrade-details">
         <span class="upgrade-name">{{ upgrade.name }}</span>
         <span class="upgrade-description">{{ upgrade.description }}</span>
         <span class="upgrade-price">{{ upgrade.price }} Vodka</span>
-        <span class="upgrade-purchased">Upgrades Purchased : {{ upgrade.purchasedCount }}</span>
+        <span class="upgrade-purchased">Améliorations achetées : {{ upgrade.purchasedCount }}</span>
         <span v-if="upgrade.effect === 'doubleClicks'" class="upgrade-multiplier">
-          Current Multiplier : {{ upgrade.clickMultiplier }}x
+          Multiplicateur actuel : {{ upgrade.clickMultiplier }}x
         </span>
       </div>
       <button @click="buyUpgrade(index)">
@@ -26,10 +27,9 @@ export default {
     upgrades: Array,
   },
   methods: {
-    // Méthode pour acheter une amélioration
     buyUpgrade(index) {
       console.log(`Demande d'achat de l'amélioration à l'index : ${index}`);
-      this.$emit('buy-upgrade', index); // Émet l'événement pour acheter l'amélioration
+      this.$emit('buy-upgrade', index);// envoi event pour acheter l'amélioration
     },
   },
 };
@@ -38,17 +38,30 @@ export default {
 <style scoped>
 .upgrade-panel {
   position: fixed;
-  top: 10%;
+  top: 1%;
   right: 10px;
-  background-color: #fff;
+  background-color: #d32f2f;
   padding: 20px;
-  border: 2px solid #ccc;
+  border: 3px solid #ffeb3b;
   border-radius: 10px;
-  width: 200px;
+  width: 250px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+  font-family: 'Roboto', sans-serif;
+  color: #fff;
+}
+.soviet-icon {
+  width: 50px;
+  height: 50px;
+  display: block;
+  margin: 0 auto 10px auto;
 }
 
 .upgrade-item {
-  margin-bottom: 20px;
+  margin-bottom: 15px;
+  padding: 10px;
+  background-color: #b71c1c;
+  border: 2px solid #ffeb3b;
+  border-radius: 5px;
 }
 
 .upgrade-details {
@@ -58,20 +71,22 @@ export default {
 
 .upgrade-name {
   font-weight: bold;
-  color: #333;
+  color: #ffeb3b;
   display: block;
   margin-bottom: 5px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
 }
 
 .upgrade-description {
   font-style: italic;
-  color: #666;
+  color: #fff;
   display: block;
   margin-bottom: 5px;
 }
 
 .upgrade-price {
-  color: #e91e63;
+  color: #ffeb3b;
   font-weight: bold;
   display: block;
   margin-bottom: 5px;
@@ -83,18 +98,15 @@ export default {
   margin-bottom: 5px;
 }
 
-.upgrade-production {
-  color: #2196f3;
-  display: block;
-  margin-bottom: 5px;
-}
-
 button {
   background-color: #ffeb3b;
   border: none;
   padding: 10px;
   cursor: pointer;
   border-radius: 5px;
+  color: #d32f2f;
+  font-weight: bold;
+  text-transform: uppercase;
 }
 
 button:disabled {
@@ -104,5 +116,6 @@ button:disabled {
 
 button:hover:not(:disabled) {
   background-color: #fbc02d;
+  color: #fff;
 }
 </style>
